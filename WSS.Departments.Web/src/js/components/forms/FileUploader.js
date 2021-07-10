@@ -8,7 +8,7 @@ const FileUploader = ({onFileSelect}) => {
     
         return (
                 <div className="file-uploader">
-                    <input type="file" onChange={handleFileInput} />
+                    <input accept="text/xml" type="file" onChange={handleFileInput} />
                     
                 </div>
         )
