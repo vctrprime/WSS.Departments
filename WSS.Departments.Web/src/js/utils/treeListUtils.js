@@ -1,6 +1,6 @@
 export const createNewItem = (parentId) => {
     const timestamp = new Date().getTime();
-    return { id: timestamp, parentId: parentId, isNew: true };
+    return { id: timestamp, parentId: parentId, isNew: true, originalName: "Новое подразделение" };
 };
 
 export const getByLevel = (levels, data) => {

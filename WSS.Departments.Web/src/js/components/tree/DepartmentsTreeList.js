@@ -43,6 +43,7 @@ export default class DepartmentsTreeList extends React.Component {
         const self = this;
         this.departmentRequestService.get(
             (response) => {
+                response.data.forEach((value) => value.originalName = value.name);
                 const dataTree = createDataTree(
                     response.data,
                     (i) => i.id,
@@ -86,6 +87,8 @@ export default class DepartmentsTreeList extends React.Component {
            () => self._updateTreeData())
     };
     onItemChange = (event) => {
+        if (event.field === "name") event.field = "originalName";
+        
         this.setState({
             data: mapTree(this.state.data, subItemsField, (item) =>
                 item.id === event.dataItem.id
@@ -106,7 +109,7 @@ export default class DepartmentsTreeList extends React.Component {
                 this.state.data,
                 subItemsField,
                 (item) => item.id === dataItem.id,
-                (subItems) => [newRecord, ...subItems]
+                (subItems) => [...subItems, newRecord]
             ),
         });
     };
@@ -134,6 +137,7 @@ export default class DepartmentsTreeList extends React.Component {
 
                     itemToSave.rowVersion = newItem.rowVersion;
                     itemToSave.name = newItem.name;
+                    itemToSave.originalName = newItem.name;
                     itemToSave.id = newItem.id;
 
                     saveCallback(temporaryId);
@@ -143,6 +147,7 @@ export default class DepartmentsTreeList extends React.Component {
             this.departmentRequestService.put(entityToSave,
                 (response) => {
                     itemToSave.rowVersion = response.data.rowVersion;
+                    itemToSave.originalName = response.data.name;
                     saveCallback(null);
                 },
                 () => {
@@ -197,18 +202,44 @@ export default class DepartmentsTreeList extends React.Component {
             },
             () => self._updateTreeData())
     };
-
+    
+    
     CommandCell = MyCommandCell(this._enterEdit, this._add, this._remove, this._save, this._cancel, editField);
     
     render() {
         const { data, expanded, inEdit } = this.state;
         
+        const setName = (item, index) => {
+            if (!Boolean(inEdit.find((i) => i.id === item.id))) {
+                item.name = `${index+1}. ${item.originalName}`;
+            }
+            else { item.name = item.originalName }
+        }
+        
         let rootName;
         
         const root = getByLevel([0], data);
-        if (root) rootName = root.name;
+        if (root) {
+            rootName = root.originalName;
+            setName(root, 0);
+        }
         
-        const exportHref = `${XML_EXPORT}?fileName=${rootName}`
+        const exportHref = `${XML_EXPORT}?fileName=${rootName}`;
+        
+        const mapTreeCallback = (item) => {
+            if (item.children) {
+                item.children.forEach((value, index) =>  {
+                    setName(value, index);
+                });
+            }
+            return extendDataItem(item, subItemsField, {
+                [expandField]: expanded.includes(item.id),
+                [editField]: Boolean(inEdit.find((i) => i.id === item.id)),
+            });
+        }
+        
+        
+            
         
         return (
             <div className="tree-container">
@@ -219,21 +250,16 @@ export default class DepartmentsTreeList extends React.Component {
                 
                 <TreeList
                     style={{ height: "calc(100% - 70px)", overflow: "auto" }}
-                    data={
-                        mapTree(data, subItemsField, (item) =>
-                            extendDataItem(item, subItemsField, {
-                                [expandField]: expanded.includes(item.id),
-                                [editField]: Boolean(inEdit.find((i) => i.id === item.id)),
-                            })
-                        )}
+                    data={mapTree(data, subItemsField, mapTreeCallback)}
                     editField={editField}
                     expandField={expandField}
                     subItemsField={subItemsField}
                     onExpandChange={this.onExpandChange}
                     onItemChange={this.onItemChange}
                     columns={[
-                        { field: "name", title: "Name", expandable: true, width: 280, editCell: TreeListTextEditor },
-                        { cell: this.CommandCell, width: 360 }
+                        //{ field: "point", title: "Point", expandable: true, width: 5 },
+                        { field: "name", title: "Name", expandable: true, editCell: TreeListTextEditor },
+                        { cell: this.CommandCell, width: 500 }
                     ]}
                     onRowDrop={this.onRowDrop}
                     row={TreeListDraggableRow}
