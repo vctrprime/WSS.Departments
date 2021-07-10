@@ -1,0 +1,12 @@
+#root {
+  height: 97vh;
+  
+  .app-container {
+    height: 100%;
+    
+    ._loading_overlay_wrapper {
+      height: 100% !important;
+    }
+    
+  }
+}

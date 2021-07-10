@@ -1,0 +1,24 @@
+@import './common/common.scss';
+
+.tree-container {
+  float: left;
+  height: 100%;
+  width: 100%;
+  
+  .k-grid-header {
+    display: none !important;
+  }
+  
+  .export-import-buttons {
+    width: 100%;
+    height: 70px;
+    
+    a, form {
+      float: left;
+      //width: 320px;
+    }
+    form {
+      margin-left: 20px;
+    }
+  }
+}
