@@ -12,7 +12,9 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DB_CONNECTION_STRING": "Data Source=wss-departments.cphmuvw3nwzx.eu-central-1.rds.amazonaws.com;Initial Catalog=wssdb;User ID=admin;Password=wss-admin;",
+        "LOGS_PATH": "C:\\wss"
       }
     },
     "Web": {
