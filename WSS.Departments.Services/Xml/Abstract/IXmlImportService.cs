@@ -1,18 +1,18 @@
+using System.IO;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace WSS.Departments.Services.Xml.Abstract
 {
     /// <summary>
-    /// Импорт подразделений из XElement
+    ///     Импорт подразделений из XElement
     /// </summary>
     public interface IXmlImportService
     {
         /// <summary>
-        /// Импорт
+        ///     Импорт
         /// </summary>
-        /// <param name="xml"></param>
+        /// <param name="stream"></param>
         /// <returns>Количество импортированных записей</returns>
-        Task<int> Import(XElement xml);
+        Task<int> Import(Stream stream);
     }
 }

@@ -12,33 +12,29 @@ using Xunit;
 namespace WSS.Departments.UnitTests.Services
 {
     /// <summary>
-    /// Тест серсива для экспорта
+    ///     Тест серсива для экспорта
     /// </summary>
     public class XmlExportServiceTest
     {
+        private readonly IEnumerable<Department> _departments;
         private readonly IMapper _mapper;
         private readonly Mock<IXmlExportRepository> _mock;
-        
-        private readonly IEnumerable<Department> _departments;
 
         public XmlExportServiceTest()
         {
             _mock = new Mock<IXmlExportRepository>();
-            var config = new MapperConfiguration(opts =>
-            {
-                opts.AddProfile<XmlDepartmentProfile>();
-            });
+            var config = new MapperConfiguration(opts => { opts.AddProfile<XmlDepartmentProfile>(); });
             _mapper = config.CreateMapper();
-            
+
             _departments = new Department[]
             {
-                new() { Id = 1, Name = "Test 1"},
-                new() { Id = 2, Name = "Test 2", ParentId = 1 }
+                new() {Id = 1, Name = "Test 1"},
+                new() {Id = 2, Name = "Test 2", ParentId = 1}
             };
         }
-        
+
         /// <summary>
-        /// Экспорт работает правильно
+        ///     Экспорт работает правильно
         /// </summary>
         [Fact]
         public async Task ExportReturnsValidXmlElement()
@@ -50,7 +46,7 @@ namespace WSS.Departments.UnitTests.Services
 
             // Act
             var result = await service.Export();
-            
+
             //Assert
             Assert.NotNull(result);
             Assert.Equal(result.DescendantsAndSelf().Count(), _departments.Count());

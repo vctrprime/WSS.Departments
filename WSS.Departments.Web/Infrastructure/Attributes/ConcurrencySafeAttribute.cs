@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 namespace WSS.Departments.Web.Infrastructure.Attributes
 {
     /// <summary>
-    /// Проверка удалось ли обновить объект (или RowVersion не совпадает)
+    ///     Проверка удалось ли обновить объект (или RowVersion не совпадает)
     /// </summary>
     public class ConcurrencySafeAttribute : ResultFilterAttribute
     {
@@ -13,15 +13,14 @@ namespace WSS.Departments.Web.Infrastructure.Attributes
         {
             if (context.Result is OkObjectResult {Value: null})
             {
-                context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                context.HttpContext.Response.StatusCode = (int) HttpStatusCode.BadRequest;
                 context.Result = new ContentResult
                 {
                     Content = Errors.ConcurrencyError
                 };
             }
-            
-            base.OnResultExecuting(context);
 
+            base.OnResultExecuting(context);
         }
     }
 }

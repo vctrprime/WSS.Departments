@@ -3,7 +3,7 @@ using WSS.Departments.SqlQueries.Abstract;
 namespace WSS.Departments.SqlQueries.Concrete
 {
     /// <summary>
-    /// Вставить подразделение
+    ///     Вставить подразделение
     /// </summary>
     public class InsertDepartmentSqlQuery : ISqlQuery
     {

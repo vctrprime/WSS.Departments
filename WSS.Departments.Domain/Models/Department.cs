@@ -3,29 +3,29 @@ using System.ComponentModel.DataAnnotations;
 namespace WSS.Departments.Domain.Models
 {
     /// <summary>
-    /// Подразделение
+    ///     Подразделение
     /// </summary>
     public class Department
     {
         /// <summary>
-        /// Идентификатор
+        ///     Идентификатор
         /// </summary>
         public int Id { get; set; }
-        
+
         /// <summary>
-        /// Родительский идентификатор
+        ///     Родительский идентификатор
         /// </summary>
         public int? ParentId { get; set; }
-        
+
         /// <summary>
-        /// Название
+        ///     Название
         /// </summary>
         [Required]
         [MaxLength(90)]
         public string Name { get; set; }
-        
+
         /// <summary>
-        /// Версия строки
+        ///     Версия строки
         /// </summary>
         public byte[] RowVersion { get; set; }
     }

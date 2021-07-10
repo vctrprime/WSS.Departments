@@ -11,8 +11,9 @@ namespace WSS.Departments.DAL.Repositories.Concrete.Departments
     {
         private readonly XmlImportRepositorySqlQueries _sqlQueries;
         private int _insertedCount;
-        
-        public XmlImportRepository(IConnectionCreator connectionCreator, XmlImportRepositorySqlQueries sqlQueries) : base(connectionCreator)
+
+        public XmlImportRepository(IConnectionCreator connectionCreator, XmlImportRepositorySqlQueries sqlQueries) :
+            base(connectionCreator)
         {
             _sqlQueries = sqlQueries;
         }
@@ -20,10 +21,7 @@ namespace WSS.Departments.DAL.Repositories.Concrete.Departments
         public async Task<int> Save(XmlDepartment[] departments)
         {
             _insertedCount = 0;
-            foreach (var department in departments)
-            {
-                await InsertDepartment(department);
-            }
+            foreach (var department in departments) await InsertDepartment(department);
 
             return _insertedCount;
         }
@@ -34,16 +32,14 @@ namespace WSS.Departments.DAL.Repositories.Concrete.Departments
             var id =
                 await ConnectionCreator.Connection.ExecuteScalarAsync<int>(
                     _sqlQueries.InsertDepartmentSqlQuery.Value, department);
-            
+
             if (department.Children is null) return;
-            
+
             foreach (var child in department.Children)
             {
                 child.ParentId = id;
                 await InsertDepartment(child);
             }
-            
         }
     }
-    
 }

@@ -8,22 +8,22 @@ using WSS.Departments.Services.Xml.Abstract;
 namespace WSS.Departments.Web.Controllers.API.Departments
 {
     /// <summary>
-    /// Контроллер для экспорта подразделений
+    ///     Контроллер для экспорта подразделений
     /// </summary>
     [Route("api/xml")]
     public class XmlExportController : BaseApiController
     {
         private readonly IXmlExportService _xmlExportService;
-        
-        public XmlExportController(ILogger<XmlExportController> logger, 
+
+        public XmlExportController(ILogger<XmlExportController> logger,
             IXmlExportService xmlExportService)
             : base(logger)
         {
             _xmlExportService = xmlExportService;
         }
-        
+
         /// <summary>
-        /// Экспорт
+        ///     Экспорт
         /// </summary>
         /// <param name="fileName"></param>
         /// <returns></returns>
@@ -35,11 +35,10 @@ namespace WSS.Departments.Web.Controllers.API.Departments
                 var xml = await _xmlExportService.Export();
                 return File(Encoding.UTF8.GetBytes(xml.ToString()), "text/xml", $"{fileName}.xml");
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
                 return BadRequestAction(exception, nameof(XmlExportController));
             }
         }
-        
     }
 }

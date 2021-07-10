@@ -23,7 +23,7 @@ namespace WSS.Departments.Web
         {
             services.AddMvc().AddXmlSerializerFormatters().SetCompatibilityVersion(CompatibilityVersion.Latest);
             services.AddControllersWithViews();
-            
+
             services.RegisterModules();
         }
 
@@ -51,10 +51,10 @@ namespace WSS.Departments.Web
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    "default",
+                    "{controller=Home}/{action=Index}/{id?}");
             });
-            
+
             loggerFactory.AddLog4Net("log4net.config");
         }
     }

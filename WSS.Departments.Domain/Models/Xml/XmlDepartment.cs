@@ -4,30 +4,30 @@ using System.Xml.Serialization;
 namespace WSS.Departments.Domain.Models.Xml
 {
     /// <summary>
-    /// Подразделение для XML
+    ///     Подразделение для XML
     /// </summary>
-    public class XmlDepartment 
+    public class XmlDepartment
     {
         /// <summary>
-        /// Идентификатор
+        ///     Идентификатор
         /// </summary>
         [XmlIgnore]
         public int Id { get; set; }
-        
+
         /// <summary>
-        /// Родительский идентификатор
+        ///     Родительский идентификатор
         /// </summary>
         [XmlIgnore]
         public int? ParentId { get; set; }
-        
+
         /// <summary>
-        /// Название
+        ///     Название
         /// </summary>
         [XmlAttribute("Название")]
         public string Name { get; set; }
-        
+
         /// <summary>
-        /// Дочерние подразделения
+        ///     Дочерние подразделения
         /// </summary>
         [XmlElement("Подразделение")]
         public List<XmlDepartment> Children { get; set; }

@@ -4,12 +4,12 @@ using System.Xml.Linq;
 namespace WSS.Departments.Services.Xml.Abstract
 {
     /// <summary>
-    /// Экспорт подразделений в XElement
+    ///     Экспорт подразделений в XElement
     /// </summary>
     public interface IXmlExportService
     {
         /// <summary>
-        /// Экспортировать
+        ///     Экспортировать
         /// </summary>
         /// <returns></returns>
         Task<XElement> Export();

@@ -14,7 +14,8 @@ namespace WSS.Departments.Services.Converters.Concrete
             {
                 fileContents = await reader.ReadToEndAsync();
             }
-            XDocument xml = XDocument.Parse(fileContents);
+
+            var xml = XDocument.Parse(fileContents);
 
             return xml.Root;
         }

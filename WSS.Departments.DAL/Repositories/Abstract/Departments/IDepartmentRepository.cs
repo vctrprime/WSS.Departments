@@ -5,32 +5,32 @@ using WSS.Departments.Domain.Models;
 namespace WSS.Departments.DAL.Repositories.Abstract.Departments
 {
     /// <summary>
-    /// Репозиторий для работы с сущностью Department
+    ///     Репозиторий для работы с сущностью Department
     /// </summary>
     public interface IDepartmentRepository
     {
         /// <summary>
-        /// Получить поздразделения
+        ///     Получить поздразделения
         /// </summary>
         /// <returns></returns>
         Task<IEnumerable<Department>> Get();
 
         /// <summary>
-        /// Вставить подразделение
+        ///     Вставить подразделение
         /// </summary>
         /// <param name="department"></param>
         /// <returns></returns>
         Task<Department> Insert(Department department);
 
         /// <summary>
-        /// Обновить подразделение
+        ///     Обновить подразделение
         /// </summary>
         /// <param name="department"></param>
         /// <returns></returns>
         Task<Department> Update(Department department);
 
         /// <summary>
-        /// Удалить подразделение(проставить метку удаления)
+        ///     Удалить подразделение(проставить метку удаления)
         /// </summary>
         /// <param name="department"></param>
         /// <returns></returns>

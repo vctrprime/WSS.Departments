@@ -11,15 +11,17 @@ namespace WSS.Departments.DAL.Repositories.Concrete.Departments
     public class XmlExportRepository : BaseRepository, IXmlExportRepository
     {
         private readonly XmlExportRepositorySqlQueries _sqlQueries;
-        
-        public XmlExportRepository(IConnectionCreator connectionCreator, XmlExportRepositorySqlQueries sqlQueries) : base(connectionCreator)
+
+        public XmlExportRepository(IConnectionCreator connectionCreator, XmlExportRepositorySqlQueries sqlQueries) :
+            base(connectionCreator)
         {
             _sqlQueries = sqlQueries;
         }
 
         public async Task<IEnumerable<Department>> Get()
         {
-            var departments = await ConnectionCreator.Connection.QueryAsync<Department>(_sqlQueries.GetDepartmentsSqlQuery.Value);
+            var departments =
+                await ConnectionCreator.Connection.QueryAsync<Department>(_sqlQueries.GetDepartmentsSqlQuery.Value);
             return departments;
         }
     }

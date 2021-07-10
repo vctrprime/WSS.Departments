@@ -7,20 +7,20 @@ using WSS.Departments.DAL.Repositories.Abstract.Common;
 namespace WSS.Departments.Web.Controllers.API.Common
 {
     /// <summary>
-    /// Самотест апи
+    ///     Самотест апи
     /// </summary>
     [Route("api/[controller]")]
     public class SelfTestController : BaseApiController
     {
         private readonly ISelfTestRepository _repository;
-        
+
         public SelfTestController(ILogger<SelfTestController> logger, ISelfTestRepository repository) : base(logger)
         {
             _repository = repository;
         }
-        
+
         /// <summary>
-        /// Тест
+        ///     Тест
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -31,7 +31,7 @@ namespace WSS.Departments.Web.Controllers.API.Common
                 await _repository.Test();
                 return Ok("Test successful!");
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
                 return BadRequestAction(exception, nameof(SelfTestController));
             }

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -10,20 +9,20 @@ using WSS.Departments.Web.Infrastructure.Attributes;
 namespace WSS.Departments.Web.Controllers.API.Departments
 {
     /// <summary>
-    /// Контроллер для работы с подразделениями
+    ///     Контроллер для работы с подразделениями
     /// </summary>
     public class DepartmentController : BaseApiController
     {
         private readonly IDepartmentRepository _repository;
-        
+
         public DepartmentController(ILogger<DepartmentController> logger, IDepartmentRepository repository)
             : base(logger)
         {
             _repository = repository;
         }
-        
+
         /// <summary>
-        /// Получить подразделения
+        ///     Получить подразделения
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -31,17 +30,17 @@ namespace WSS.Departments.Web.Controllers.API.Departments
         {
             try
             {
-                IEnumerable<Department> departments = await _repository.Get();
+                var departments = await _repository.Get();
                 return Ok(departments);
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
                 return BadRequestAction(exception, nameof(DepartmentController));
             }
         }
-        
+
         /// <summary>
-        /// Создать подразделение
+        ///     Создать подразделение
         /// </summary>
         /// <param name="department"></param>
         /// <returns></returns>
@@ -53,14 +52,14 @@ namespace WSS.Departments.Web.Controllers.API.Departments
                 department = await _repository.Insert(department);
                 return Ok(department);
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
                 return BadRequestAction(exception, nameof(DepartmentController));
             }
         }
-        
+
         /// <summary>
-        /// Обновить подразделение
+        ///     Обновить подразделение
         /// </summary>
         /// <param name="department"></param>
         /// <returns></returns>
@@ -73,14 +72,14 @@ namespace WSS.Departments.Web.Controllers.API.Departments
                 department = await _repository.Update(department);
                 return Ok(department);
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
                 return BadRequestAction(exception, nameof(DepartmentController));
             }
         }
-        
+
         /// <summary>
-        /// Удалить подразделение
+        ///     Удалить подразделение
         /// </summary>
         /// <param name="department"></param>
         /// <returns></returns>
@@ -94,7 +93,7 @@ namespace WSS.Departments.Web.Controllers.API.Departments
                 department = await _repository.Delete(department);
                 return Ok(department);
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
                 return BadRequestAction(exception, nameof(DepartmentController));
             }

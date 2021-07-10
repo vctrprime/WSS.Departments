@@ -10,12 +10,10 @@ namespace WSS.Departments.DAL.Repositories.Concrete.Common
         public SelfTestRepository(IConnectionCreator connectionCreator) : base(connectionCreator)
         {
         }
-        
+
         public async Task Test()
         {
             await ConnectionCreator.Connection.ExecuteAsync("SELECT 1");
         }
-
-        
     }
 }

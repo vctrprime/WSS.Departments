@@ -3,7 +3,7 @@ using WSS.Departments.SqlQueries.Abstract;
 namespace WSS.Departments.SqlQueries.Concrete
 {
     /// <summary>
-    /// Обновить подразделение
+    ///     Обновить подразделение
     /// </summary>
     public class UpdateDepartmentSqlQuery : ISqlQuery
     {

@@ -6,13 +6,12 @@ using Xunit;
 namespace WSS.Departments.UnitTests.Controllers
 {
     /// <summary>
-    /// Базовый класс для теста контроллеров
+    ///     Базовый класс для теста контроллеров
     /// </summary>
     public class BaseApiControllerTest
     {
         protected void VerifyMethodHasAttribute<T>(BaseApiController controller, string action) where T : Attribute
         {
-            
             //Act
             var type = controller.GetType();
             var methodInfo = type.GetMethod(action);

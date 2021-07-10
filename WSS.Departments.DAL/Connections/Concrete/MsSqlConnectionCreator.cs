@@ -7,7 +7,7 @@ using WSS.Departments.DAL.Connections.Abstract;
 namespace WSS.Departments.DAL.Connections.Concrete
 {
     /// <summary>
-    /// Подключение к MS SQL
+    ///     Подключение к MS SQL
     /// </summary>
     public class SqliteConnectionCreator : IConnectionCreator
     {
@@ -19,7 +19,7 @@ namespace WSS.Departments.DAL.Connections.Concrete
             _dbConfig = dbConfig;
         }
 
-        
+
         public DbConnection Connection
         {
             get
@@ -29,9 +29,20 @@ namespace WSS.Departments.DAL.Connections.Concrete
                 return _connection;
             }
         }
-        
+
+        public void Dispose()
+        {
+            if (_connection != null)
+            {
+                if (_connection.State != ConnectionState.Closed) _connection.Close();
+                _connection.Dispose();
+
+                _connection = null;
+            }
+        }
+
         /// <summary>
-        /// Создать подключение к MS SQL
+        ///     Создать подключение к MS SQL
         /// </summary>
         /// <returns></returns>
         private DbConnection CreateConnection()
@@ -41,20 +52,6 @@ namespace WSS.Departments.DAL.Connections.Concrete
             _connection.Open();
 
             return _connection;
-        }
-        
-        public void Dispose()
-        {
-            if (_connection != null)
-            {
-                if (_connection.State != ConnectionState.Closed)
-                {
-                    _connection.Close();
-                }
-                _connection.Dispose();
-
-                _connection = null;
-            }
         }
     }
 }

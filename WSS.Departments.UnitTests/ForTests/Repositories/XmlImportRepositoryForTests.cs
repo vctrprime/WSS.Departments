@@ -5,7 +5,7 @@ using WSS.Departments.Domain.Models.Xml;
 namespace WSS.Departments.UnitTests.ForTests.Repositories
 {
     /// <summary>
-    /// Репозиторий IXmlImportRepository для тестов
+    ///     Репозиторий IXmlImportRepository для тестов
     /// </summary>
     public class XmlImportRepositoryForTests : IXmlImportRepository
     {

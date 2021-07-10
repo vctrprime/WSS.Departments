@@ -5,12 +5,12 @@ using System.Xml.Linq;
 namespace WSS.Departments.Services.Converters.Abstract
 {
     /// <summary>
-    /// Конвертер из файла в XElement
+    ///     Конвертер из файла в XElement
     /// </summary>
     public interface IFileToXElementConverter
     {
         /// <summary>
-        /// Конвертировать
+        ///     Конвертировать
         /// </summary>
         /// <param name="stream"></param>
         /// <returns></returns>

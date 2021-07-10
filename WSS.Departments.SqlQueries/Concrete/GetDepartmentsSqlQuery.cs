@@ -3,7 +3,7 @@ using WSS.Departments.SqlQueries.Abstract;
 namespace WSS.Departments.SqlQueries.Concrete
 {
     /// <summary>
-    /// Рекурсивный запрос для получения списка подразделений
+    ///     Рекурсивный запрос для получения списка подразделений
     /// </summary>
     public class GetDepartmentsSqlQuery : ISqlQuery
     {

@@ -21,7 +21,7 @@ using WSS.Departments.SqlQueries.ForRepositories;
 namespace WSS.Departments.Web.Infrastructure.Extensions
 {
     /// <summary>
-    /// Расширение для внедрения различных зависимостей
+    ///     Расширение для внедрения различных зависимостей
     /// </summary>
     public static class ServiceCollectionExtensions
     {
@@ -33,66 +33,66 @@ namespace WSS.Departments.Web.Infrastructure.Extensions
                 .RegisterSqlQueries()
                 .RegisterMapperProfiles();
         }
-        
+
         /// <summary>
-        /// Зарегистрировать сервисы
+        ///     Зарегистрировать сервисы
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
         private static IServiceCollection RegisterServices(this IServiceCollection services)
         {
-            services.AddSingleton<IDbConfig, DbConfig>(config => 
-                new DbConfig( Environment.GetEnvironmentVariable("DB_CONNECTION_STRING")));
+            services.AddSingleton<IDbConfig, DbConfig>(config =>
+                new DbConfig(Environment.GetEnvironmentVariable("DB_CONNECTION_STRING")));
             services.AddTransient<IConnectionCreator, SqliteConnectionCreator>();
 
             services.AddTransient<IFileToXElementConverter, FileToXElementConverter>();
-            
+
             services.AddTransient<IXmlImportService, XmlImportService>();
             services.AddTransient<IXmlExportService, XmlExportService>();
-            
+
             return services;
         }
-        
+
         /// <summary>
-        /// Зарегистрировать репозитории
+        ///     Зарегистрировать репозитории
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
         private static IServiceCollection RegisterRepositories(this IServiceCollection services)
         {
             services.AddTransient<ISelfTestRepository, SelfTestRepository>();
-            
+
             services.AddTransient<IDepartmentRepository, DepartmentRepository>();
             services.AddTransient<IXmlImportRepository, XmlImportRepository>();
             services.AddTransient<IXmlExportRepository, XmlExportRepository>();
-            
+
             return services;
         }
-        
+
         /// <summary>
-        /// Зарегистрировать запросы
+        ///     Зарегистрировать запросы
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
         private static IServiceCollection RegisterSqlQueries(this IServiceCollection services)
         {
             var sqlAssembly = typeof(ISqlQuery).Assembly;
-            
+
             services.RegisterAssemblyTypes(sqlAssembly)
                 .Where(t => t.GetInterfaces().Any(ti =>
-                                ti.Name == nameof(ISqlQuery)))
+                    ti.Name == nameof(ISqlQuery)))
                 .AsScoped()
                 .Bind();
-            
+
             services.RegisterType<DepartmentRepositorySqlQueries>().AsScoped().PropertiesAutowired().Bind();
             services.RegisterType<XmlImportRepositorySqlQueries>().AsScoped().PropertiesAutowired().Bind();
             services.RegisterType<XmlExportRepositorySqlQueries>().AsScoped().PropertiesAutowired().Bind();
-            
+
             return services;
         }
-        
+
         /// <summary>
-        /// Зарегистрировать профили маппинга
+        ///     Зарегистрировать профили маппинга
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>

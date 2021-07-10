@@ -1,13 +1,8 @@
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
+using System.IO;
 using System.Runtime.Serialization;
-using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Linq;
-using Castle.Core.Internal;
-using WSS.Departments.DAL.Repositories.Abstract.Departments;
-using WSS.Departments.Domain.Models;
-using WSS.Departments.Domain.Models.Xml;
+using WSS.Departments.Services.Converters.Concrete;
+using WSS.Departments.Services.Xml.Abstract;
 using WSS.Departments.Services.Xml.Concrete;
 using WSS.Departments.UnitTests.ForTests.Repositories;
 using Xunit;
@@ -15,122 +10,75 @@ using Xunit;
 namespace WSS.Departments.UnitTests.Services
 {
     /// <summary>
-    /// Тесты сервиса для импорта
+    ///     Тесты сервиса для импорта
     /// </summary>
     public class XmlImportServiceTest
     {
-        private readonly IXmlImportRepository _repositoryForTest;
-        
+        private readonly IXmlImportService _service;
+
         public XmlImportServiceTest()
         {
-            _repositoryForTest = new XmlImportRepositoryForTests();
+            _service = new XmlImportService(
+                new XmlImportRepositoryForTests(),
+                new FileToXElementConverter()
+            );
         }
-        
+
         /// <summary>
-        /// Импорт валидного xml работает
+        ///     Импорт валидного xml работает
         /// </summary>
         [Fact]
         public async Task ImportReturnsValidResult()
         {
             // Arrange
-            XmlDepartment[] departments =
-            {
-                new() { Name = "Департамент 1" },
-                new() { Name = "Департамент 2" }
-            };
-            var validXElement = new XElement("Подразделения", 
-                new XElement("Подразделение", new XAttribute("Название", departments[0].Name)),
-                new XElement("Подразделение", new XAttribute("Название", departments[1].Name)));
-            
-            var service = new XmlImportService(_repositoryForTest);
-
+            Stream fs = File.OpenRead("Files/validXml.xml");
             // Act
-            var result = await service.Import(validXElement);
-            
+            var exception = await Record.ExceptionAsync(async () => await _service.Import(fs));
+
             //Assert
-            Assert.Equal(result, departments.Length);
+            Assert.Null(exception);
         }
-        
+
         /// <summary>
-        /// Импорт xml с пустыми атрибутами не работает
+        ///     Импорт xml с пустыми атрибутами не работает
         /// </summary>
         [Fact]
         public async Task ImportReturnsExceptionForEmptyAttribute()
         {
             // Arrange
-            XmlDepartment[] departments =
-            {
-                new() { Name = "" },
-                new() { Name = "Департамент 2" }
-            };
-            var invalidXElement = new XElement("Подразделения", 
-                new XElement("Подразделение", new XAttribute("Название", departments[0].Name)),
-                new XElement("Подразделение", new XAttribute("Название", departments[1].Name)));
-            
-            var service = new XmlImportService(_repositoryForTest);
+            Stream fs = File.OpenRead("Files/emptyAttrbibuteXml.xml");
 
             // Act
             // Assert
-            await Assert.ThrowsAsync<SerializationException>(async () => await service.Import(invalidXElement));
+            await Assert.ThrowsAsync<SerializationException>(async () => await _service.Import(fs));
         }
-        
+
         /// <summary>
-        /// Импорт xml с отстутсвующими атрибутами не работает
+        ///     Импорт xml с отстутсвующими атрибутами не работает
         /// </summary>
         [Fact]
         public async Task ImportReturnsExceptionForNotExistAttribute()
         {
             // Arrange
-            XmlDepartment[] departments =
-            {
-                new() { Name = "" },
-                new() { Name = "Департамент 2" }
-            };
-            var invalidXElement = new XElement("Подразделения", 
-                new XElement("Подразделение"),
-                new XElement("Подразделение", new XAttribute("Название", departments[1].Name)));
-            
-            var service = new XmlImportService(_repositoryForTest);
+            Stream fs = File.OpenRead("Files/notExistAttributeXml.xml");
 
             // Act
             // Assert
-            await Assert.ThrowsAsync<SerializationException>(async () => await service.Import(invalidXElement));
+            await Assert.ThrowsAsync<SerializationException>(async () => await _service.Import(fs));
         }
-        
+
         /// <summary>
-        /// Импорт с слишком длинным значение Название не работает
+        ///     Импорт с слишком длинным значение Название не работает
         /// </summary>
         [Fact]
         public async Task ImportReturnsExceptionForLongAttribute()
         {
-            
             // Arrange
-            XmlDepartment[] departments =
-            {
-                new() { Name = GetLongName() },
-                new() { Name = "Департамент 2" }
-            };
-            var invalidXElement = new XElement("Подразделения", 
-                new XElement("Подразделение", new XAttribute("Название", departments[0].Name)),
-                new XElement("Подразделение", new XAttribute("Название", departments[1].Name)));
-            
-            var service = new XmlImportService(_repositoryForTest);
+            Stream fs = File.OpenRead("Files/longAttributeXml.xml");
 
             // Act
-            await Assert.ThrowsAsync<SerializationException>(async () => await service.Import(invalidXElement));
-        }
-
-
-        private string GetLongName()
-        {
-            var maxLength = typeof(Department).GetProperty("Name").GetAttributes<MaxLengthAttribute>().First().Length;
-            StringBuilder sb = new StringBuilder("t");
-            while (sb.Length <= maxLength)
-            {
-                sb.Append("t");
-            }
-
-            return sb.ToString();
+            // Assert
+            await Assert.ThrowsAsync<SerializationException>(async () => await _service.Import(fs));
         }
     }
 }

@@ -3,7 +3,7 @@ using WSS.Departments.SqlQueries.Abstract;
 namespace WSS.Departments.SqlQueries.Concrete
 {
     /// <summary>
-    /// Запрос для удаления подразделения (выставляет метку удаления)
+    ///     Запрос для удаления подразделения (выставляет метку удаления)
     /// </summary>
     public class DeleteDepartmentSqlQuery : ISqlQuery
     {

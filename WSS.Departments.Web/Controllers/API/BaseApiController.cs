@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 namespace WSS.Departments.Web.Controllers.API
 {
     /// <summary>
-    /// Базовый апи контроллер
+    ///     Базовый апи контроллер
     /// </summary>
     [Route("api/[controller]s")]
     [ApiController]
@@ -18,7 +18,7 @@ namespace WSS.Departments.Web.Controllers.API
         {
             _logger = logger;
         }
-        
+
         protected IActionResult BadRequestAction(Exception exception, string controllerName)
         {
             _logger.LogError(exception, controllerName);

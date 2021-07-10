@@ -14,14 +14,13 @@ using Xunit;
 namespace WSS.Departments.UnitTests.Controllers
 {
     /// <summary>
-    /// Тест методов DepartmentController
+    ///     Тест методов DepartmentController
     /// </summary>
     public class DepartmentControllerTest : BaseApiControllerTest
     {
-        private readonly Mock<IDepartmentRepository> _mock;
-        private readonly ILogger<DepartmentController> _logger;
-        
         private readonly IEnumerable<Department> _departments;
+        private readonly ILogger<DepartmentController> _logger;
+        private readonly Mock<IDepartmentRepository> _mock;
 
         public DepartmentControllerTest()
         {
@@ -29,15 +28,15 @@ namespace WSS.Departments.UnitTests.Controllers
             _logger = Mock.Of<ILogger<DepartmentController>>();
             _departments = new Department[]
             {
-                new() { Id = 1, Name = "Test 1"},
-                new() { Id = 2, Name = "Test 2", ParentId = 1 }
+                new() {Id = 1, Name = "Test 1"},
+                new() {Id = 2, Name = "Test 2", ParentId = 1}
             };
         }
 
         #region get
-        
+
         /// <summary>
-        /// Get возвращает Ok
+        ///     Get возвращает Ok
         /// </summary>
         [Fact]
         public async Task GetReturnsOkResult()
@@ -50,16 +49,17 @@ namespace WSS.Departments.UnitTests.Controllers
             // Act
             var result = await controller.Get();
             var objectResult = (result as OkObjectResult)?.Value;
-            
+
             //Assert
             Assert.IsType<OkObjectResult>(result);
             Assert.NotNull(objectResult);
             Assert.IsAssignableFrom<IEnumerable<Department>>(objectResult);
-            Assert.Equal(_departments.Count(), ((objectResult as IEnumerable<Department>) ?? Array.Empty<Department>()).Count());
+            Assert.Equal(_departments.Count(),
+                (objectResult as IEnumerable<Department> ?? Array.Empty<Department>()).Count());
         }
-        
+
         /// <summary>
-        /// Get возвращает Bad
+        ///     Get возвращает Bad
         /// </summary>
         [Fact]
         public async Task GetReturnsBadResult()
@@ -75,12 +75,13 @@ namespace WSS.Departments.UnitTests.Controllers
             //Assert
             Assert.IsType<BadRequestObjectResult>(result);
         }
+
         #endregion
-        
+
         #region post
-        
+
         /// <summary>
-        /// Post возвращает Ok
+        ///     Post возвращает Ok
         /// </summary>
         [Fact]
         public async Task PostReturnsOkResult()
@@ -94,15 +95,15 @@ namespace WSS.Departments.UnitTests.Controllers
             // Act
             var result = await controller.Post(department);
             var objectResult = (result as OkObjectResult)?.Value;
-            
+
             //Assert
             Assert.IsType<OkObjectResult>(result);
             Assert.NotNull(objectResult);
             Assert.IsAssignableFrom<Department>(objectResult);
         }
-        
+
         /// <summary>
-        /// Post возвращает Bad
+        ///     Post возвращает Bad
         /// </summary>
         [Fact]
         public async Task PostReturnsBadResult()
@@ -119,11 +120,13 @@ namespace WSS.Departments.UnitTests.Controllers
             //Assert
             Assert.IsType<BadRequestObjectResult>(result);
         }
+
         #endregion
 
         #region put
+
         /// <summary>
-        /// У Put есть атрибут ConcurrencySafeAttribute
+        ///     У Put есть атрибут ConcurrencySafeAttribute
         /// </summary>
         [Fact]
         public void VerifyPutHasConcurrencySafeAttribute()
@@ -133,9 +136,9 @@ namespace WSS.Departments.UnitTests.Controllers
 
             VerifyMethodHasAttribute<ConcurrencySafeAttribute>(controller, "Put");
         }
-        
+
         /// <summary>
-        /// Put возвращает Ok
+        ///     Put возвращает Ok
         /// </summary>
         [Fact]
         public async Task PutReturnsOkResult()
@@ -149,15 +152,15 @@ namespace WSS.Departments.UnitTests.Controllers
             // Act
             var result = await controller.Put(department);
             var objectResult = (result as OkObjectResult)?.Value;
-            
+
             //Assert
             Assert.IsType<OkObjectResult>(result);
             Assert.NotNull(objectResult);
             Assert.IsAssignableFrom<Department>(objectResult);
         }
-        
+
         /// <summary>
-        /// Put возвращает Bad
+        ///     Put возвращает Bad
         /// </summary>
         [Fact]
         public async Task PutReturnsBadResult()
@@ -176,10 +179,11 @@ namespace WSS.Departments.UnitTests.Controllers
         }
 
         #endregion
-        
+
         #region delete
+
         /// <summary>
-        /// У delete есть атрибут ConcurrencySafeAttribute
+        ///     У delete есть атрибут ConcurrencySafeAttribute
         /// </summary>
         [Fact]
         public void VerifyDeleteHasConcurrencySafeAttribute()
@@ -189,9 +193,9 @@ namespace WSS.Departments.UnitTests.Controllers
 
             VerifyMethodHasAttribute<ConcurrencySafeAttribute>(controller, "Delete");
         }
-        
+
         /// <summary>
-        /// У delete есть атрибут UnremovableRootAttribute
+        ///     У delete есть атрибут UnremovableRootAttribute
         /// </summary>
         [Fact]
         public void VerifyDeleteHasUnremovableRootAttribute()
@@ -201,9 +205,9 @@ namespace WSS.Departments.UnitTests.Controllers
 
             VerifyMethodHasAttribute<UnremovableRootAttribute>(controller, "Delete");
         }
-        
+
         /// <summary>
-        /// Delete возвращает Ok
+        ///     Delete возвращает Ok
         /// </summary>
         [Fact]
         public async Task DeleteReturnsOkResult()
@@ -217,15 +221,15 @@ namespace WSS.Departments.UnitTests.Controllers
             // Act
             var result = await controller.Delete(department);
             var objectResult = (result as OkObjectResult)?.Value;
-            
+
             //Assert
             Assert.IsType<OkObjectResult>(result);
             Assert.NotNull(objectResult);
             Assert.IsAssignableFrom<Department>(objectResult);
         }
-        
+
         /// <summary>
-        /// Delete возвращает Bad
+        ///     Delete возвращает Bad
         /// </summary>
         [Fact]
         public async Task DeleteReturnsBadResult()
@@ -242,6 +246,7 @@ namespace WSS.Departments.UnitTests.Controllers
             //Assert
             Assert.IsType<BadRequestObjectResult>(result);
         }
+
         #endregion
     }
 }
