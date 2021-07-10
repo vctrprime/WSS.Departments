@@ -35,6 +35,8 @@ namespace WSS.Departments.Web.Controllers.API.Departments
         [HttpPost("import")]
         public async Task<IActionResult> Post(IFormFile file)
         {
+            if (file is null) return BadRequestAction(new ArgumentNullException(), nameof(XmlImportController));
+            
             try
             {
                 XElement xml = await _fileToXElementConverter.Convert(file.OpenReadStream());
