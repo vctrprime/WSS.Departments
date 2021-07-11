@@ -70,11 +70,12 @@ export default class DepartmentsTreeList extends React.Component {
         if (newParent.id === item.parentId) return;
         
         item.parentId = newParent.id;
-       
+        item.name = item.originalName;
+        
         this.departmentRequestService.put(item, 
            (response) => {
                item.rowVersion = response.data.rowVersion;
-               item.name = response.data.name;
+               
                self.setState({
                    data: moveTreeItem(
                        self.state.data,
